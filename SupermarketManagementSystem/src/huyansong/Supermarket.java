@@ -207,6 +207,9 @@ public class Supermarket {
         System.out.println("商品信息删除成功！");
     }
 
+    /*  统计功能
+     * 收集所有商品信息，按库存量从高到低排序，并输出结果。
+     * */
     public void Collect_goods(){
         System.out.println("正在整理商品信息...");
         System.out.println("*");
@@ -239,6 +242,9 @@ public class Supermarket {
         }
     }
 
+    /*  导出信息
+     * 将商品信息写入文件。
+     * */
     public void Save_data() throws IOException {
         System.out.println("正在导出商品信息...");
         System.out.println("*");
@@ -246,7 +252,7 @@ public class Supermarket {
         System.out.println("*");
 
         // 将商品信息写入文件
-        java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter("res/storehouse.txt"));
+        java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter("res/data/storehouse.txt"));
         for (Set<Good> set : goods.values()) {
             for (Good g : set) {
                 bw.write(g.type + " " + g.name + " " + g.price + " " + g.remain + " " + g.manufacturer + " " + g.brand);
@@ -269,7 +275,7 @@ public class Supermarket {
         System.out.println("*");
 
         // 从文件中读取商品信息
-        BufferedReader br = new BufferedReader(new FileReader("res/storehouse.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("res/data/storehouse.txt"));
         String line;
         while ((line = br.readLine()) != null) {
             String[] arr = line.split("\\s+");
