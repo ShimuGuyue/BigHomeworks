@@ -36,45 +36,44 @@ public class Supermarket {
             System.out.println("5)删除功能      6)统计功能      7)信息存盘      8)信息读取");
             System.out.println("q)退出系统");
             System.out.println("请输入要执行的操作：");
-            char mode = sc.nextLine().charAt(0);
+            String mode = sc.nextLine();
 
             // 判断何时结束循环，退出系统
             boolean work = true;
 
             switch (mode) {
-                case '1':
+                case "1":
                     this.Sale_good(sc);
                     break;
-                case '2':
+                case "2":
                     this.Add_good(sc);
                     break;
-                case '3':
+                case "3":
                     this.Find_good(sc);
                     break;
-                case '4':
+                case "4":
                     this.Modify_good(sc);
                     break;
-                case '5':
+                case "5":
                     this.Delete_good(sc);
                     break;
-                case '6':
+                case "6":
                     this.Collect_goods();
                     break;
-                case '7':
+                case "7":
                     this.Save_data();
                     break;
-                case '8':
+                case "8":
                     this.Load_data();
                     break;
-                case 'q':
+                case "q":
                     work = false;
                     break;
                 default:
                     System.out.println("输入非法！请重新输入！");
             }
             // 当用户按退出键时退出管理系统
-            if (!work)
-            {
+            if (!work){
                 System.out.println("正在退出超市管理系统...");
                 System.out.println("*");
                 System.out.println("*");
@@ -84,7 +83,7 @@ public class Supermarket {
             }
 
             // 等待用户键入Enter键再继续下一次循环，为用户留出反应时间
-            System.out.println("操作完成，请键入Enter键继续...");
+            System.out.println("[请键入Enter键继续...]");
             sc.nextLine();
             System.out.println();
             System.out.println();
@@ -135,7 +134,7 @@ public class Supermarket {
         good.remain -= num;
         // 计算总价
         int price = num * good.price;
-        System.out.println("您一共消费"+price+"元！感谢惠顾！");
+        System.out.println("您一共消费" + price + "元！感谢惠顾！");
     }
 
     /*  添加功能
@@ -296,19 +295,20 @@ public class Supermarket {
         System.out.println("商品信息整理结果如下：");
 
         // 收集所有商品
-        java.util.List<Good> allGoods = new java.util.ArrayList<>();
+        java.util.List<Good> all_goods = new java.util.ArrayList<>();
         for (Set<Good> set : goods.values()) {
-            allGoods.addAll(set);
+            all_goods.addAll(set);
         }
-        int sum = allGoods.size();
+        int sum = all_goods.size();
         System.out.println("当前库存商品总数：" + sum);
-        if (sum == 0) return;
+        if (sum == 0)
+            return;
 
         // 按库存量从高到低排序
-        allGoods.sort((a, b) -> Integer.compare(b.remain, a.remain));
+        all_goods.sort((a, b) -> Integer.compare(b.remain, a.remain));
 
         System.out.println("商品信息按库存量从高到低排序如下：");
-        for (Good g : allGoods) {
+        for (Good g : all_goods) {
             System.out.println("{");
             System.out.println("\t[类别：" + g.type + "]");
             System.out.println("\t[名称：" + g.name + "]");
@@ -356,6 +356,7 @@ public class Supermarket {
         BufferedReader br = new BufferedReader(new FileReader("res/data/storehouse.txt"));
         String line;
         while ((line = br.readLine()) != null) {
+            // 将读取到的商品信息按空格分割，然后创建Good对象
             String[] arr = line.split("\\s+");
             String type = arr[0];
             String name = arr[1];
