@@ -307,17 +307,26 @@ public class Supermarket {
         // 按库存量从高到低排序
         all_goods.sort((a, b) -> Integer.compare(b.remain, a.remain));
 
+        // 按 json 的格式输出商品信息
         System.out.println("商品信息按库存量从高到低排序如下：");
-        for (Good g : all_goods) {
-            System.out.println("{");
-            System.out.println("\t[类别：" + g.type + "]");
-            System.out.println("\t[名称：" + g.name + "]");
-            System.out.println("\t[价格：" + g.price + "]");
-            System.out.println("\t[库存量：" + g.remain + "]");
-            System.out.println("\t[生产厂家：" + g.manufacturer + "]");
-            System.out.println("\t[品牌：" + g.brand + "]");
-            System.out.println("}");
+        System.out.println("[");
+        for (int i = 0; i < all_goods.size(); i++) {
+            Good g = all_goods.get(i);
+            System.out.println("\t{");
+            System.out.println("\t\t" + "类别: " + g.type + ",");
+            System.out.println("\t\t" + "名称: " + g.name + ",");
+            System.out.println("\t\t" + "价格: " + g.price + ",");
+            System.out.println("\t\t" + "库存量: " + g.remain + ",");
+            System.out.println("\t\t" + "生产厂家: " + g.manufacturer + ",");
+            System.out.println("\t\t" + "品牌: " + g.brand);
+            System.out.print  ("\t}");
+            if (i != all_goods.size() - 1) {
+                System.out.println(",");
+            } else {
+                System.out.println();
+            }
         }
+        System.out.println("]");
     }
 
     /*  导出信息
