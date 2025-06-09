@@ -1,3 +1,7 @@
-/*/.idea/
-/*/out/
-/*/*.iml
+/SupermarketManagementSystem/.idea/
+/SupermarketManagementSystem/out/
+/SupermarketManagementSystem/*.iml
+/SupermarketManagementSystem/resources/docs/*.aux
+/SupermarketManagementSystem/resources/docs/*.synctex.gz
+/SupermarketManagementSystem/resources/docs/*.log
+/SupermarketManagementSystem/resources/docs/*.toc
