@@ -339,7 +339,7 @@ public class Supermarket {
         System.out.println("*");
 
         // 将商品信息写入文件
-        java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter("res/data/storehouse.txt"));
+        java.io.BufferedWriter bw = new java.io.BufferedWriter(new java.io.FileWriter("resources/data/StoreHouse.txt"));
         for (Set<Good> set : goods.values()) {
             for (Good g : set) {
                 bw.write(g.type + " " + g.name + " " + g.price + " " + g.remain + " " + g.manufacturer + " " + g.brand);
@@ -362,7 +362,7 @@ public class Supermarket {
         System.out.println("*");
 
         // 从文件中读取商品信息
-        BufferedReader br = new BufferedReader(new FileReader("res/data/storehouse.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("resources/data/StoreHouse.txt"));
         String line;
         while ((line = br.readLine()) != null) {
             // 将读取到的商品信息按空格分割，然后创建Good对象
