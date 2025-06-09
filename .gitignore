@@ -5,3 +5,7 @@
 /SupermarketManagementSystem/resources/docs/*.synctex.gz
 /SupermarketManagementSystem/resources/docs/*.log
 /SupermarketManagementSystem/resources/docs/*.toc
+
+/EightQueensProblem/.idea/
+/EightQueensProblem/cmake-build-debug/
+/EightQueensProblem/CmakeLists.txt
