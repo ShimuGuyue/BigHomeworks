@@ -9,5 +9,5 @@
 /SupermarketManagementSystem/resources/docs/*.toc
 
 /EightQueensProblem/.idea/
-/EightQueensProblem/cmake-build-debug/
+/EightQueensProblem/cmake-build-*/
 /EightQueensProblem/CmakeLists.txt
