@@ -13,7 +13,9 @@ int main()
 	// 将 C++ 与 C 的输入输出流解除同步
 	std::ios::sync_with_stdio(false);
 
-
+	// 创建八皇后问题的实例并调用菜单函数
+	EightQueens eightQueens;
+	eightQueens.Menu();
 
 	return 0;
 }

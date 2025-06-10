@@ -10,4 +10,7 @@ private:	// 成员变量
 public:		// 构造函数
 	EightQueens();
 
+public:		// 菜单
+	void Menu();
+
 };
