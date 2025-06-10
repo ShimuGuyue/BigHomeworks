@@ -21,6 +21,8 @@ using std::string;
 using std::to_string;
 using std::getline;
 #define LINE_IGNORE {string rubbish; getline(cin, rubbish);}
+#include <stack>
+using std::stack;
 
 EightQueens::EightQueens() : size(8), grid(size, vector<bool>(size, false))
 {}
@@ -69,11 +71,11 @@ void EightQueens::Recursive_backtracking()
 	cout << "开始进行递归回溯算法..." << endl;
 
 	// 递归回溯算法的核心逻辑
-	// 使用四个向量来记录每一行、每一列和两条对角线上当前放置的皇后数量
-	vector<int> rows(size); // 行
-	vector<int> cols(size);	// 列
-	vector<int> diag_left (2 * size - 1); // 左对角线
-	vector<int> diag_right(2 * size - 1); // 右对角线
+	// 使用四个数组来记录每一行、每一列和两条对角线上当前放置的皇后数量
+	vector<int> rows(size);
+	vector<int> cols(size);
+	vector<int> diag_left (2 * size - 1);
+	vector<int> diag_right(2 * size - 1);
 	int ans = 0; // 解的数量
 	auto Dfs = [this, &rows, &cols, &diag_left, &diag_right, &ans](auto &&Dfs, int i, int j, int count_queen) -> void
 	{
@@ -132,14 +134,89 @@ void EightQueens::Recursive_backtracking()
 
 void EightQueens::NonRecursive_backtracking()
 {
+	// 正常人不会用这种垃圾算法……
 	cout << "开始演示非递归回溯算法..." << endl;
 
+	// 使用四个数组来记录每一行、每一列和两条对角线上当前放置的皇后数量
+	vector<int> rows(size);
+	vector<int> cols(size);
+	vector<int> diag_left (2 * size - 1);
+	vector<int> diag_right(2 * size - 1);
 
+	struct Data 
+	{
+	    int i, j;        // 当前位置 (i,j)
+	    int count;       // 到目前为止已放置的皇后数
+	    int branch;      // 下一个要尝试的分支：0=跳过，1=放置，2=完成回退
+	    bool placed;     // 本层是否放置过皇后，用于回退时恢复状态
+	};
 
-	// 算法演示完成后恢复棋盘
+	int ans = 0;
+	stack<Data> stk;
+	stk.push({0, 0, 0, 0, false});
+	while (!stk.empty())
+	{
+		auto &[i, j, count, branch, placed] = stk.top();
+		if (i == size)
+		{
+			if (count == size)
+			{
+				++ans;
+				stringstream file_path;
+				file_path << "../output/solutions/NonRecursiveBacktracking/" << setw(3) << setfill('0') << ans << ".txt";
+				Print(file_path.str());
+			}
+			stk.pop();
+			continue;
+		}
+		// 计算下一个位置
+		int next_i, next_j;
+		j + 1 == size ?
+			(next_i = i + 1, next_j = 0) :
+			(next_i = i, next_j = j + 1);
+		if (branch == 0)
+		{
+			// 分支 0：不在 (i,j) 放皇后，直接“递归”到下一个位置
+			branch = 1;
+			stk.push({next_i, next_j, count, 0, false});
+		}
+		else if (branch == 1)
+		{
+			// 分支 1：尝试在 (i,j) 放皇后
+			branch = 2;
+			if (rows[i] || cols[j] || diag_left[i + j]  ||diag_right[size - (i - j)])
+				continue;
+			// 放置皇后，更新状态
+			grid[i][j] = true;
+			++rows[i];
+			++cols[j];
+			++diag_left[i + j];
+			++diag_right[size - (i - j)];
+			placed = true;
+			// 进入下一位置
+			stk.push({next_i, next_j, count + 1, 0, false});
+		}
+		else
+		{
+			// 分支 2：两种尝试都结束，执行回退
+			if (placed)
+			{
+				// 如果本层放过皇后，则撤销放置
+				grid[i][j] = false;
+				--rows[i];
+				--cols[j];
+				--diag_left[i + j];
+				--diag_right[size - (i - j)];
+			}
+			stk.pop();
+		}
+	}
+
+	cout << "非递归回溯算法找到的解的数量为：" << ans << endl;
 	this->Restore();
 	cout << "非递归回溯算法演示完成。" << endl;
 }
+
 
 void EightQueens::RecursiveTree_backtracking()
 {
