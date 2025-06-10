@@ -32,17 +32,17 @@ void EightQueens::Menu()
 		if (choice == "1")
 		{
 			cout << "开始演示递归回溯算法..." << endl;
-			// Recursive_backtracking();
+			Recursive_backtracking();
 		}
 		else if (choice == "2")
 		{
 			cout << "开始演示非递归回溯算法..." << endl;
-			// NonRecursive_backtracking();
+			NonRecursive_backtracking();
 		}
 		else if (choice == "3")
 		{
 			cout << "开始演示排列树的递归回溯算法..." << endl;
-			// RecursiveTree_backtracking();
+			RecursiveTree_backtracking();
 		}
 		else if (choice == "q")
 		{
@@ -58,4 +58,36 @@ void EightQueens::Menu()
 		cout << "[键入 Enter 键继续]" << endl;
 		{string rubbish; getline(cin, rubbish);}
 	}
+}
+
+void EightQueens::Restore()
+{
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+		{
+			grid[i][j] = false;
+		}
+	}
+}
+
+void EightQueens::Recursive_backtracking()
+{
+
+
+	this->Restore();
+}
+
+void EightQueens::NonRecursive_backtracking()
+{
+
+
+	this->Restore();
+}
+
+void EightQueens::RecursiveTree_backtracking()
+{
+
+
+	this->Restore();
 }
