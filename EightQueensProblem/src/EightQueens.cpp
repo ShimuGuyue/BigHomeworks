@@ -4,10 +4,16 @@
 using std::cin;
 using std::cout;
 using std::endl;
+#include <fstream>
+using std::ofstream;
+#include <filesystem>
+using std::filesystem::create_directories;
+using std::filesystem::path;
 #include <vector>
 using std::vector;
 #include <string>
 using std::string;
+using std::to_string;
 using std::getline;
 #define LINE_IGNORE {string rubbish; getline(cin, rubbish);}
 
@@ -55,7 +61,7 @@ void EightQueens::Restore()
 
 void EightQueens::Recursive_backtracking()
 {
-	cout << "开始演示递归回溯算法..." << endl;
+	cout << "开始进行递归回溯算法..." << endl;
 
 	// 递归回溯算法的核心逻辑
 	// 使用四个向量来记录每一行、每一列和两条对角线上当前放置的皇后数量
@@ -66,11 +72,19 @@ void EightQueens::Recursive_backtracking()
 	int ans = 0; // 解的数量
 	auto Dfs = [this, &rows, &cols, &diag_left, &diag_right, &ans](auto &&Dfs, int i, int j, int count_queen) -> void
 	{
+
 		// 如果所有格子都被判断过，结束递归搜索，返回答案
 		if (i == size)
 		{
 			// 如果正好放置了八个皇后，解的数量加一
-			ans += count_queen == size;
+			if (count_queen == size)
+			{
+				++ans;
+				// 打印当前棋盘到文件
+
+				string file_path = "../output/solutions/RecursiveBacktracking/" + to_string(ans) + ".txt";
+				Print(file_path);
+			}
 			return;
 		}
 
@@ -105,12 +119,9 @@ void EightQueens::Recursive_backtracking()
 	// 输出结果
 	cout << "递归回溯算法找到的解的数量为：" << ans << endl;
 
-	cout << "[键入 Enter 键继续]" << endl;
-	LINE_IGNORE
-
 	// 算法演示完成后恢复棋盘
 	this->Restore();
-	cout << "递归回溯算法演示完成。" << endl;
+	cout << "递归回溯算法完成，所有可行解已被输出到文件。" << endl;
 }
 
 void EightQueens::NonRecursive_backtracking()
@@ -133,4 +144,29 @@ void EightQueens::RecursiveTree_backtracking()
 	// 算法演示完成后恢复棋盘
 	this->Restore();
 	cout << "排列树的递归回溯算法演示完成。" << endl;
+}
+
+void EightQueens::Print(std::string &file_path)
+{
+	// 创建文件目录
+	create_directories(path(file_path).parent_path());
+	// 打印当前棋盘到指定文件
+	ofstream fout(file_path);
+	
+	fout << "   1  2  3  4  5  6  7  8" << endl;
+	for (int i = 0; i < size; ++i)
+	{
+		auto &v = grid[i];
+		fout << i + 1 << " {";
+		for (int j = 0; j < size; ++j)
+		{
+			bool b = v[j];
+			if (j != 0)
+				fout << ", ";
+			fout << (b ? "Q" : "_");
+		}
+		fout << "}" << endl;
+	}
+	fout << endl;
+	fout.close();
 }
