@@ -279,7 +279,6 @@ void EightQueens::PermutationTree_backtracking()
     cout << "排列树的递归回溯算法演示完成。" << endl;
 }
 
-
 void EightQueens::Print(std::string file_path)
 {
 	// 创建文件目录
