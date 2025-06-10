@@ -57,7 +57,56 @@ void EightQueens::Recursive_backtracking()
 {
 	cout << "开始演示递归回溯算法..." << endl;
 
+	// 递归回溯算法的核心逻辑
+	// 使用四个向量来记录每一行、每一列和两条对角线上当前放置的皇后数量
+	vector<int> rows(size); // 行
+	vector<int> cols(size);	// 列
+	vector<int> diag_left (2 * size - 1); // 左对角线
+	vector<int> diag_right(2 * size - 1); // 右对角线
+	int ans = 0; // 解的数量
+	auto Dfs = [this, &rows, &cols, &diag_left, &diag_right, &ans](auto &&Dfs, int i, int j, int count_queen) -> void
+	{
+		// 如果所有格子都被判断过，结束递归搜索，返回答案
+		if (i == size)
+		{
+			// 如果正好放置了八个皇后，解的数量加一
+			ans += count_queen == size;
+			return;
+		}
 
+		/*
+		对于每个位置，分成放置皇后和不放置皇后两种情况进行递归求解
+		*/
+
+		// 如果当前位置不放置皇后，直接进入下一个位置
+		j + 1 < size ? Dfs(Dfs, i, j + 1, count_queen) : Dfs(Dfs, i + 1, 0, count_queen);
+
+		// 如果当前位置放置皇后，检查是否满足条件，满足条件则进入下一个位置
+		if (rows[i] || cols[j] || diag_left[i + j] || diag_right[size - (i - j)])
+			return;
+		// 在棋盘上放置皇后，更新相关状态
+		grid[i][j] = true;
+		++rows[i];
+		++cols[j];
+		++diag_left[i + j];
+		++diag_right[size - (i - j)];
+		// 进入下一个位置
+		j + 1 < size ? Dfs(Dfs, i, j + 1, count_queen + 1) : Dfs(Dfs, i + 1, 0, count_queen + 1);
+		// 回溯，撤销放置皇后操作，恢复相关状态
+		grid[i][j] = false;
+		--rows[i];
+		--cols[j];
+		--diag_left[i + j];
+		--diag_right[size - (i - j)];
+	};
+	// 执行递归回溯算法
+	Dfs(Dfs, 0, 0, 0);
+
+	// 输出结果
+	cout << "递归回溯算法找到的解的数量为：" << ans << endl;
+
+	cout << "[键入 Enter 键继续]" << endl;
+	LINE_IGNORE
 
 	// 算法演示完成后恢复棋盘
 	this->Restore();
