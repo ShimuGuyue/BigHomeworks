@@ -6,9 +6,14 @@ using std::cout;
 using std::endl;
 #include <fstream>
 using std::ofstream;
+#include <sstream>
+using std::stringstream;
 #include <filesystem>
 using std::filesystem::create_directories;
 using std::filesystem::path;
+#include <iomanip>
+using std::setw;
+using std::setfill;
 #include <vector>
 using std::vector;
 #include <string>
@@ -82,8 +87,9 @@ void EightQueens::Recursive_backtracking()
 				++ans;
 				// 打印当前棋盘到文件
 
-				string file_path = "../output/solutions/RecursiveBacktracking/" + to_string(ans) + ".txt";
-				Print(file_path);
+				stringstream file_path; 
+				file_path << "../output/solutions/RecursiveBacktracking/" << setw(3) << setfill('0') << ans << ".txt";
+				Print(file_path.str());
 			}
 			return;
 		}
@@ -146,7 +152,7 @@ void EightQueens::RecursiveTree_backtracking()
 	cout << "排列树的递归回溯算法演示完成。" << endl;
 }
 
-void EightQueens::Print(std::string &file_path)
+void EightQueens::Print(std::string file_path)
 {
 	// 创建文件目录
 	create_directories(path(file_path).parent_path());

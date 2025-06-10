@@ -18,7 +18,7 @@ private:	// 内部运行指令
 	// 每次执行算法后恢复棋盘
 	void Restore();
 	// 棋盘打印函数
-	void Print(std::string &file_path);
+	void Print(std::string file_path);
 
 private:	// 内部算法
 	// 递归回溯
