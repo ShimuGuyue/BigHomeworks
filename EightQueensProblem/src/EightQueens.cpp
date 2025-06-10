@@ -49,7 +49,7 @@ void EightQueens::Menu()
 		else if (choice == "2")
 			NonRecursive_backtracking();
 		else if (choice == "3")
-			RecursiveTree_backtracking();
+			PermutationTree_backtracking();
 		else if (choice == "q")
 			break;
 		else
@@ -217,17 +217,68 @@ void EightQueens::NonRecursive_backtracking()
 	cout << "非递归回溯算法演示完成。" << endl;
 }
 
-
-void EightQueens::RecursiveTree_backtracking()
+void EightQueens::PermutationTree_backtracking()
 {
-	cout << "开始演示排列树的递归回溯算法..." << endl;
+    cout << "开始演示排列树的递归回溯算法..." << endl;
 
+    // 列索引初始为 0,1,2,...,size-1，后续通过 swap 就地生成排列
+    std::vector<int> cols(size);
+    for (int i = 1; i < size; ++i)
+	{
+		cols[i] = i;
+	}
 
+    // 斜线冲突标记
+    vector<int> diag_left (2 * size - 1);    // i + j
+    vector<int> diag_right(2 * size - 1, 0);   // j - i + (size - 1)
 
-	// 算法演示完成后恢复棋盘
-	this->Restore();
-	cout << "排列树的递归回溯算法演示完成。" << endl;
+    int ans = 0;
+	// 递归搜索：row 表示当前要在第 row 行放置皇后
+	auto dfs = [this, &cols, &diag_left, &diag_right, &ans](auto &&dfs, int row)
+	{
+		if (row == size)
+		{
+			++ans;
+			std::stringstream file_path;
+			file_path << "../output/solutions/PermutationTree_backtracking/" << std::setw(3) << std::setfill('0') << ans << ".txt";
+			Print(file_path.str());
+			return;
+		}
+
+		for (int i = row; i < size; ++i)
+		{
+			// 将第 i 个候选列交换到 row 位置，构造第 row 行的列号
+			std::swap(cols[row], cols[i]);
+			int col = cols[row];
+			// 冲突检测：同列通过 permutation 本身就能避免，故只检测两条对角线即可
+			if (diag_left[row + col] == 0 && diag_right[col - row + (size - 1)] == 0)
+			{
+				// 放置皇后
+				grid[row][col] = true;
+				++diag_left[row + col];
+				++diag_right[col - row + (size - 1)];
+
+				// 继续放下一行
+				dfs(dfs, row + 1);
+
+				// 回溯：撤销放置
+				grid[row][col] = false;
+				--diag_left[row + col];
+				--diag_right[col - row + (size - 1)];
+			}
+
+			// 恢复交换，为下一个候选做准备
+			std::swap(cols[row], cols[i]);
+		}
+	};
+
+    dfs(dfs, 0);
+
+    cout << "递归回溯算法找到的解的数量为：" << ans << endl;
+    this->Restore();
+    cout << "排列树的递归回溯算法演示完成。" << endl;
 }
+
 
 void EightQueens::Print(std::string file_path)
 {

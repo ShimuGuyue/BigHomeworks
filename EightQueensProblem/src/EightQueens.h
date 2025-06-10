@@ -26,5 +26,5 @@ private:	// 内部算法
 	// 非递归回溯
 	void NonRecursive_backtracking();
 	// 排列树的递归回溯
-	void RecursiveTree_backtracking();
+	void PermutationTree_backtracking();
 };
