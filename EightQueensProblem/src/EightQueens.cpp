@@ -17,7 +17,7 @@ void EightQueens::Menu()
 {
 	cout << "开始进行八皇后问题的求解算法演示..." << endl;
 	cout << "[键入 Enter 键继续]" << endl;
-	cin.ignore();
+	{string rubbish; getline(cin, rubbish);}
 
 	while (1)
 	{
@@ -56,6 +56,6 @@ void EightQueens::Menu()
 		}
 
 		cout << "[键入 Enter 键继续]" << endl;
-		cin.ignore();
+		{string rubbish; getline(cin, rubbish);}
 	}
 }
